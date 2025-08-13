@@ -8,13 +8,20 @@ function PokemonList(){
     const [pokemonList, setPokemonList] = useState([]);
     const [loading, setLoading] = useState(true);
 
+    const pokedexUrl = 'https://pokeapi.co/api/v2/pokemon?limit=10';
+
     async function downloadPokemons(){
-         const response = await axios.get('https://pokeapi.co/api/v2/pokemon?limit=10');
-        const pokemonResults = response.data.results;
+         const response = await axios.get(pokedexUrl); // Fetching the list of Pokemons
+        const pokemonResults = response.data.results; // Extracting the results array from the response
+        // itreating over the results to get details of each Pokemon, to create an array of promises
+        // that will be resolved concurrently using axios.all
+        // Using axios.all to fetch details of all Pokemons concurrently
         const pokemonResultsPromise = pokemonResults.map((pokemon) => axios.get(pokemon.url));
-        const pokemonDetails = await axios.all(pokemonResultsPromise); 
+        // passing the array of promises to axios.all
+        const pokemonDetails = await axios.all(pokemonResultsPromise);  
         console.log(pokemonDetails);
-        const res = pokemonDetails.map((pokeData) => {
+        // Mapping over the resolved promises to extract the required data
+        const pokeListRes = pokemonDetails.map((pokeData) => {
             const pokemon = pokeData.data;
 
             return {
@@ -23,8 +30,8 @@ function PokemonList(){
                 image: pokemon.sprites.other?.dream_world?.front_default || pokemon.sprites.front_default,
                 types: pokemon.types
         }});
-        console.log(res);
-        setPokemonList(res);
+        console.log(pokeListRes);
+        setPokemonList(pokeListRes); // Setting the state with the list of Pokemons
         setLoading(false);
 
         // console.log(response.data);
