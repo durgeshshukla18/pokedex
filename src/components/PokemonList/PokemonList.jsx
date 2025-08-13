@@ -8,11 +8,19 @@ function PokemonList(){
     const [pokemonList, setPokemonList] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    const pokedexUrl = 'https://pokeapi.co/api/v2/pokemon?limit=10';
+    const [pokedexUrl, setpokedexUrl] = useState('https://pokeapi.co/api/v2/pokemon?limit=10');
+    const [nextUrl, setNextUrl] = useState('');
+    const [prevUrl, setPrevUrl] = useState('');
 
     async function downloadPokemons(){
-         const response = await axios.get(pokedexUrl); // Fetching the list of Pokemons
+        setLoading(true);
+        const response = await axios.get(pokedexUrl); // Fetching the list of Pokemons
         const pokemonResults = response.data.results; // Extracting the results array from the response
+        console.log(pokemonResults);
+        setNextUrl(response.data.next); // Setting the next URL for pagination
+        setPrevUrl(response.data.previous); // Setting the previous URL for pagination
+
+
         // itreating over the results to get details of each Pokemon, to create an array of promises
         // that will be resolved concurrently using axios.all
         // Using axios.all to fetch details of all Pokemons concurrently
@@ -38,10 +46,10 @@ function PokemonList(){
         setLoading(false);
     }
 
-    useEffect(async() => {
+    useEffect(() => {
         console.log("useEffect called");
         downloadPokemons();
-    }, []);
+    }, [pokedexUrl]);
 
     // const [x, setX] = useState(0);
     // const [y, setY] = useState(0);
@@ -56,9 +64,14 @@ function PokemonList(){
             {(loading) ? 'Loading...' : 
             pokemonList.map((p) => <Pokemon name={p.name} image={p.image} key={p.id} />
         )}       
-            </div>
+        </div>
         {/* Pokemon list will be rendered here */}
 
+        </div>
+
+        <div className="button-wrapper">
+            <button disabled={prevUrl === null} onClick={() => setpokedexUrl(prevUrl)} >Prev</button>
+            <button disabled={nextUrl === null} onClick={() => setpokedexUrl(nextUrl)}>Next</button>
         </div>
 
 

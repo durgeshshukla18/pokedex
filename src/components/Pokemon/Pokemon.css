@@ -11,6 +11,7 @@
     background-color: #f9f9f9;
 
 }
+
 .pokemon-name {
     margin: 10px 0;
     font-size: 1.2em;
@@ -18,7 +19,9 @@
     text-transform: capitalize;
     color: #333;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    letter-spacing: 0.3rem;  
 }
+
 .pokemon-img {
     width: 200px;
     height: 200px;
