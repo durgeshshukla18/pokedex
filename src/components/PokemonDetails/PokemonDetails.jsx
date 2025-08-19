@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import './PokemonDetails.css'; 
 
 
-function PokemonDetails(){
+function PokemonDetails({pokemonName}){
 
     const { id } = useParams();
     console.log("Pokemon ID:", id);

@@ -12,6 +12,14 @@ function PokemonList(){
     const [nextUrl, setNextUrl] = useState('');
     const [prevUrl, setPrevUrl] = useState('');
 
+    // const [pokemonListState, setPokemonListState] = useState({
+    //     pokemonList: [],
+    //     loading: true,
+    //     pokedexUrl: 'https://pokeapi.co/api/v2/pokemon?limit=10',
+    //     nextUrl: '',
+    //     prevUrl: ''
+    // });
+
     async function downloadPokemons(){
         setLoading(true);
         const response = await axios.get(pokedexUrl); // Fetching the list of Pokemons
