@@ -9,34 +9,27 @@ function PokemonDetails({pokemonName}){
     const { id } = useParams();
     console.log("Pokemon ID:", id);
 
-    const [pokemonDetails, setPokemonDetails] = useState(id, pokemonName);
+    const [pokemonDetails, setPokemonDetails] = useState( {} );
 
     async function fetchPokemonDetails() {
         let pokResponse;
-        if (pokemonName) {
-            pokResponse = await axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
-            console.log("Pokemon Details by Name:", response.data);
-            setPokemonDetails({
-                id: response.data.id,
-                name: response.data.name,
-                image: response.data.sprites.other?.dream_world?.front_default || response.data.sprites.front_default,
-                height: response.data.height,
-                weight: response.data.weight,
-                types: response.data.types.map(typeInfo => typeInfo.type.name),
-                similarPokemons: response.data.similarPokemons || []
-            });
-            return;
-        }
-        const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`);
+        
+      if (pokemonName) {
+        response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
+        console.log("Pokemon Details by Name:", response.data);
+      } else {
+        response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`);
         console.log("Pokemon Details:", response.data);
-        setPokemonDetails({
-            id: response.data.id,
-            name: response.data.name,
-            image: response.data.sprites.other?.dream_world?.front_default || response.data.sprites.front_default,
-            height: response.data.height,
-            weight: response.data.weight,
-            types: response.data.types.map(typeInfo => typeInfo.type.name)
-        });
+      }
+
+      setPokemonDetails({
+        id: response.data.id,
+        name: response.data.name,
+        image: response.data.sprites.other?.dream_world?.front_default || response.data.sprites.front_default,
+        height: response.data.height,
+        weight: response.data.weight,
+        types: response.data.types.map(typeInfo => typeInfo.type.name),
+      });
     }
 
     useEffect(() => {
