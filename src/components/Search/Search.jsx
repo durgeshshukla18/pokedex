@@ -4,7 +4,12 @@ import './Search.css';
 function Search({updateSearchTerm}){
 
     // const [searchTerm, setSearchTerm] = useState('');
+    // const handleSearchChange = (e) => {
+    //     setSearchTerm(e.target.value);
+    //     updateSearchTerm(e.target.value);
+    // };
 
+    
 
     return (
         <div className="search-wrapper">
