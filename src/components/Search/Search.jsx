@@ -10,8 +10,8 @@ function Search({updateSearchTerm}){
     //     updateSearchTerm(e.target.value);
     // };
 
-    const debouncedSearch = useDebounce((value) => {
-        updateSearchTerm(value)}, 2000);
+    const debouncedSearch = useDebounce((e) => {
+        updateSearchTerm(e.target.value)}, 2000);
     
 
     return (
@@ -20,7 +20,7 @@ function Search({updateSearchTerm}){
         id="pokemon-name-search"
         type="text"
         placeholder="Search for a Pokémon"
-        onChange={(e) => debouncedSearch(e.target.value)}
+        onChange={debouncedSearch}
         />
         {/* {searchTerm} */}
         </div>
