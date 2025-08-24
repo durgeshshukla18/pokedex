@@ -12,24 +12,33 @@ function PokemonDetails({pokemonName}){
     const [pokemonDetails, setPokemonDetails] = useState( {} );
 
     async function fetchPokemonDetails() {
-        let pokResponse;
-        
-      if (pokemonName) {
-        response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
-        console.log("Pokemon Details by Name:", response.data);
-      } else {
-        response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`);
-        console.log("Pokemon Details:", response.data);
-      }
-
-      setPokemonDetails({
-        id: response.data.id,
-        name: response.data.name,
-        image: response.data.sprites.other?.dream_world?.front_default || response.data.sprites.front_default,
-        height: response.data.height,
-        weight: response.data.weight,
-        types: response.data.types.map(typeInfo => typeInfo.type.name),
-      });
+        try {
+            let response;
+            
+          if (pokemonName) {
+            response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
+            console.log("Pokemon Details by Name:", response.data);
+            console.log("Pokemon Name:", pokemonName);
+          } else {
+            response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`);
+            console.log("Pokemon Details:", response.data);
+            console.log("Pokemon ID:", id);
+          }
+    
+          setPokemonDetails({
+            id: response.data.id,
+            name: response.data.name,
+            image: response.data.sprites.other?.dream_world?.front_default || response.data.sprites.front_default,
+            height: response.data.height,
+            weight: response.data.weight,
+            types: response.data.types.map(typeInfo => typeInfo.type.name),
+          });
+            
+        } catch (error) {
+            console.error("Error fetching Pokemon details:", error);
+            return;
+            
+        }
     }
 
     useEffect(() => {

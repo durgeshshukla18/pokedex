@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import './Search.css';
+import useDebounce from '../../hooks/useDebounce';
 
 function Search({updateSearchTerm}){
 
@@ -9,6 +10,8 @@ function Search({updateSearchTerm}){
     //     updateSearchTerm(e.target.value);
     // };
 
+    const debouncedSearch = useDebounce((value) => {
+        updateSearchTerm(value)}, 2000);
     
 
     return (
@@ -17,7 +20,7 @@ function Search({updateSearchTerm}){
         id="pokemon-name-search"
         type="text"
         placeholder="Search for a Pokémon"
-        onChange={(e) => updateSearchTerm(e.target.value)}
+        onChange={(e) => debouncedSearch(e.target.value)}
         />
         {/* {searchTerm} */}
         </div>
